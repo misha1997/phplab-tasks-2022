@@ -19,6 +19,8 @@
 
 namespace functions;
 
+use InvalidArgumentException;
+
 class Functions
 {
     /**
@@ -57,8 +59,9 @@ class Functions
      */
     public function sayHelloArgumentWrapper($arg): string
     {
-        // put your code here
-
+        if(!is_numeric($arg) && !is_string($arg) && !is_bool($arg)) {
+            throw new InvalidArgumentException('Аrgument is not: number, string or bool');
+        }
         return $this->sayHelloArgument($arg);
     }
 
@@ -91,6 +94,12 @@ class Functions
      */
     public function countArgumentsWrapper(): array
     {
-        // put your code here
+        $args = func_get_args();
+        foreach ($args as $value) {
+            if (!is_string($value)) {
+                throw new InvalidArgumentException('Аrgument is not string');
+            }
+        }
+        return $this->countArguments($args);
     }
 }
